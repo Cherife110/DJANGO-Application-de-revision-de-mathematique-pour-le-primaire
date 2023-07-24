@@ -1,0 +1,27 @@
+{% load static%}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'css/login.css'%}">
+    <title>page de connexion</title>
+</head>
+<body>
+    <div class="loginBox"> <img class="user" src="https://i.ibb.co/yVGxFPR/2.png" height="100px" width="100px">
+        <h3>Connectez vous</h3>
+        <form action="" method="post">
+            <div class="inputBox">
+                <input id="uname" type="text" name="uname" placeholder="Nom d'utilisateur">
+                <input id="pass" type="password" name="pass" placeholder="Mot de passe"> 
+            </div> 
+            <input type="submit" name="" value="Connexion">
+        </form> 
+        <a href="#">Mot de passe oublié<br> </a>
+        <div class="text-center">
+            <a href="#" style="color: #59238F;">S'inscrire</a>
+        </div>
+        
+    </div>
+</body>
+</html>

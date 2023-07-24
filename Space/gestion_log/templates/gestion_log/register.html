@@ -1,0 +1,44 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+    <link rel="stylesheet"  href="{% static 'css/register.css' %}">
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <title>register</title>
+</head>
+<body>
+    <section class="get-in-touch">
+    <h1 class="title">Creez votre compte</h1>
+    <form class="contact-form row" action="" method="post">
+        <div class="form-field col-lg-6">
+            <input id="name" class="input-text js-input" type="text" required>
+            <label class="label" for="name">Nom</label>
+        </div>
+        <div class="form-field col-lg-6">
+            <input id="sname" class="input-text js-input" type="text" required>
+            <label class="label" for="sname">Prenom</label>
+        </div>     
+        <div class="form-field col-lg-6">
+            <input id="uname" class="input-text js-input" type="text" required>
+            <label class="label" for="uname">Pseudo</label>
+        </div>  
+        <div class="form-field col-lg-6 ">
+            <input id="email" class="input-text js-input" type="email" required>
+            <label class="label" for="email">Email</label>
+        </div>
+        <div class="form-field col-lg-6 ">
+            <input id="pass" class="input-text js-input" type="password" required>
+            <label class="label" for="pass">Mot de passe</label>
+        </div>
+        <div class="form-field col-lg-12">
+            <input class="submit-btn" type="submit" value="S'enregister">
+        </div>
+    </form>
+    </section>
+
+</body>
+</html>
