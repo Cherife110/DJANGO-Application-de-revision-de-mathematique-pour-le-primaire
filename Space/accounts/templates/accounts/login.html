@@ -1,0 +1,11 @@
+{% load static %}
+{% block title %}Connexion{% endblock %}
+{% block content %}
+<h1>Connexion</h1>
+<form method="post" action="{% url 'custom_login' %}">
+  {% csrf_token %}
+  {{ form.as_p }}
+  <button type="submit">Se connecter</button>
+</form>
+<p>Pas encore inscrit ? <a href="{% url 'register_page' %}">Créer un compte</a></p>
+{% endblock %}

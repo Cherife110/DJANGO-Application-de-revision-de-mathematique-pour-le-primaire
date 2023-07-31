@@ -27,7 +27,6 @@ class CustomUser(AbstractBaseUser):
     lastname = models.CharField(max_length=70)
     contact = models.CharField(max_length=70, blank=True, null=True)
 
-
     is_active = models.BooleanField(default=True)
     is_staff = models.BooleanField(default=False)
     is_admin = models.BooleanField(default=False)
