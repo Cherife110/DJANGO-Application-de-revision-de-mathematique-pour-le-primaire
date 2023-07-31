@@ -1,0 +1,48 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+}
+header {
+    background-color: #333;
+    color: #fff;
+    padding: 10px;
+    text-align: center;
+}
+.container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    padding: 20px;
+}
+.card {
+    width: 200px;
+    height: 200px;
+    background-color: #f2f2f2;
+    border-radius: 10px;
+    margin: 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+.card:hover {
+    background-color: #ddd;
+}
+.card i {
+    font-size: 36px;
+    margin-bottom: 10px;
+}
+.card span {
+    font-size: 18px;
+}
+.quiz-section {
+    display: none;
+    margin-top: 20px;
+}
+.radio-label {
+    display: block;
+    margin: 5px;
+}
