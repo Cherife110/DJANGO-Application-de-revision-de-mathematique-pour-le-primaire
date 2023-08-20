@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>MyDjangoApp</title>
+   
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+   
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+</head>
+<body class="override" style="background-color: #FFF0F5;">
+    <nav class="navbar navbar-inverse" role="navigation" style="background-color: #FF69B4;">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="#" style="color: white;">Application d'aide à la révision des mathématiques</a>
+            </div>
+           
+            <div id="navbar" class="collapse navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li><a href="#" style="color: white;">Connexion</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+   
+    <div class="container">
+        <div class="row">
+            {% block content %}{% endblock %}
+        </div>
+    </div>
+   
+    <footer>
+        <div class="container">
+            <div class="row well ml-t" style="background-color: #FFF0F5;">
+                <div class="col-lg-4 col-md-4">
+                    <p class="m-t" style="color: #FF69B4;">Copyright &copy; 2023</p>
+                    <p style="color: #FF69B4;">All Rights Reserved.</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>

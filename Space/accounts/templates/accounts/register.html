@@ -1,24 +1,20 @@
-{% load static %}
-{% block title %}Inscription{% endblock %}
+<!-- register.html -->
+{% extends 'accounts/base.html' %}
+
 {% block content %}
-<h1>Inscription</h1>
-<form method="post" action="{% url 'register_page' %}">
+<form method="POST" novalidate>
   {% csrf_token %}
-  <!-- Affichage du champ user_type -->
-  {{ form.user_type }}
-  <!-- Affichage des champs communs à tous les types d'utilisateur -->
-  {{ form.username }}
-  {{ form.password1 }}
-  {{ form.password2 }}
-  <!-- Affichage des champs spécifiques à chaque type d'utilisateur selon la valeur du champ user_type -->
-  {% if form.user_type.value == 'ELEVE' %}
-    {% include 'accounts/mini_page/eleve_fields.html' %}
-  {% elif form.user_type.value == 'PARENT' %}
-    {% include 'accounts/mini_page/parent_fields.html' %}
-  {% elif form.user_type.value == 'PROFESSEUR' %}
-    {% include 'accounts/mini_page/professeur_fields.html' %}
+  <h2>Créer un compte</h2>
+  <p>Choisissez votre rôle:</p>
+  <select name="role">
+    <option value="">--Vous etes :--</option>
+    <option value="parent">Parent</option>
+    <option value="student">Élève</option>
+    <option value="teacher">Enseignant</option>
+  </select>
+  {% if error %}
+  <p class="error">{{ error }}</p>
   {% endif %}
-  <button type="submit">S'inscrire</button>
+  <input type="submit" value="Suivant" />
 </form>
-<p>Déjà inscrit ? <a href="{% url 'custom_login' %}">Se connecter</a></p>
-{% endblock %}
+{% endblock content %}

@@ -19,5 +19,8 @@ from django.urls import path , include
 
 urlpatterns = [
     path("admin/", admin.site.urls),
-    path('', include('accounts.urls'))
+    path('', include('accounts.urls')),
 ]
+
+#parent creer son compet et ajoute ses goss avec identifiends
+ 

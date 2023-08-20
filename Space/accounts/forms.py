@@ -1,88 +1,67 @@
 from django import forms
-from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
-from .models import Parent, Eleve, Professeur
+from .models import User, Profile
 
-class ParentCreationForm(UserCreationForm):
-    # Ajout des champs propres au parent
-    firstname = forms.CharField(max_length=150)
-    lastname = forms.CharField(max_length=70)
-    contact = forms.CharField(max_length=70)
-    email = forms.EmailField()
-    enfants = forms.ModelMultipleChoiceField(
-        queryset=Eleve.objects.all(), # Tous les élèves disponibles
-        widget=forms.CheckboxSelectMultiple # Affichage sous forme de cases à cocher
-    )
+class ParentRegistrationForm(UserCreationForm):
+    contact_info = forms.CharField(max_length=100)
 
     class Meta:
-        model = User # Le modèle associé au formulaire
-        fields = ['username', 'password1', 'password2', 'firstname', 'lastname', 'contact', 'email', 'enfants'] # Les champs à afficher dans le formulaire
+        model = User
+        fields = ('username', 'password1', 'password2', 'contact_info')
+        widgets = {
+            'username': forms.TextInput(attrs={'class':'form-control'}),
+            'password1': forms.PasswordInput(attrs={'class':'form-control'}),
+            'password' : forms.PasswordInput(attrs={'class':'form-control'}),
+            'contacts_info':forms.TextInput(attrs={'class':'form-control'})
+            }
 
     def save(self, commit=True):
-        # Sauvegarde de l'instance du modèle User
         user = super().save(commit=False)
-        user.first_name = self.cleaned_data['firstname']
-        user.last_name = self.cleaned_data['lastname']
-        user.email = self.cleaned_data['email']
+        user.role = 'parent'
         if commit:
             user.save()
-            # Création de l'instance du modèle Parent
-            parent = Parent.objects.create(user=user)
-            # Ajout des enfants sélectionnés au parent
-            parent.enfants.set(self.cleaned_data['enfants'])
-            parent.save()
+            Profile.objects.create(user=user, contact_info=self.cleaned_data['contact_info'])
+        return user
+
+class StudentRegistrationForm(UserCreationForm):
+    class Meta:
+        model = User
+        fields = ('username', 'classe','password1', 'password2')
+        widgets = {
+            'username': forms.TextInput(attrs={'class':'form-control'}),
+            'classe': forms.Select(attrs={'class':'form-control'}),
+            'password1': forms.PasswordInput(attrs={'class':'form-control'}),
+            'password' : forms.PasswordInput(attrs={'class':'form-control'}),          
+            }
+
+    def save(self, commit=True):
+        user = super().save(commit=False)
+        user.role = 'student'
+        if commit:
+            user.save()
+            Profile.objects.create(user=user)
+        return user
+
+class TeacherRegistrationForm(UserCreationForm):
+    class Meta:
+        model = User
+        fields = ('username','classe', 'password1', 'password2')
+        widgets = {
+            'username': forms.TextInput(attrs={'class':'form-control'}),
+            'classe': forms.Select(attrs={'class':'form-control'}),
+            'password1': forms.PasswordInput(attrs={'class':'form-control'}),
+            'password' : forms.PasswordInput(attrs={'class':'form-control'}),
+            'contacts_info':forms.TextInput(attrs={'class':'form-control'})
+            }
+
+    def save(self, commit=True):
+        user = super().save(commit=False)
+        user.role = 'teacher'
+        if commit:
+            user.save()
+            Profile.objects.create(user=user)
         return user
     
-class ProfesseurCreationForm(UserCreationForm):
-    # Ajout des champs propres au professeur
-    firstname = forms.CharField(max_length=150)
-    lastname = forms.CharField(max_length=70)
-    contact = forms.CharField(max_length=70)
-    email = forms.EmailField()
-    etablissement = forms.CharField(max_length=200)
-    classe = forms.CharField(max_length=50)
-
-    class Meta:
-        model = User # Le modèle associé au formulaire
-        fields = ['username', 'password1', 'password2', 'firstname', 'lastname', 'contact', 'email', 'etablissement', 'classe'] # Les champs à afficher dans le formulaire
-
-    def save(self, commit=True):
-        # Sauvegarde de l'instance du modèle User
-        user = super().save(commit=False)
-        user.first_name = self.cleaned_data['firstname']
-        user.last_name = self.cleaned_data['lastname']
-        user.email = self.cleaned_data['email']
-        if commit:
-            user.save()
-            # Création de l'instance du modèle Professeur
-            professeur = Professeur.objects.create(user=user)
-            professeur.etablissement = self.cleaned_data['etablissement']
-            professeur.classe = self.cleaned_data['classe']
-            professeur.save()
-        return user
-    
-class EleveCreationForm(UserCreationForm):
-    # Ajout des champs propres à l'élève
-    firstname = forms.CharField(max_length=150)
-    lastname = forms.CharField(max_length=70)
-    contact = forms.CharField(max_length=70)
-    classe = forms.CharField(max_length=50)
-    etablissement = forms.CharField(max_length=200)
-
-    class Meta:
-        model = User # Le modèle associé au formulaire
-        fields = ['username', 'password1', 'password2', 'firstname', 'lastname', 'contact', 'classe', 'etablissement'] # Les champs à afficher dans le formulaire
-
-    def save(self, commit=True):
-        # Sauvegarde de l'instance du modèle User
-        user = super().save(commit=False)
-        user.first_name = self.cleaned_data['firstname']
-        user.last_name = self.cleaned_data['lastname']
-        if commit:
-            user.save()
-            # Création de l'instance du modèle Eleve
-            eleve = Eleve.objects.create(user=user)
-            eleve.classe = self.cleaned_data['classe']
-            eleve.etablissement = self.cleaned_data['etablissement']
-            eleve.save()
-        return user
+class LoginForm(forms.Form):
+    username = forms.CharField(label='username', max_length=30)
+    password = forms.CharField(label='Password', widget=forms.PasswordInput)

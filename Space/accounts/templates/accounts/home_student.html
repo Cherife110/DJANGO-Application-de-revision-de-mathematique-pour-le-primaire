@@ -1,0 +1,39 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Application d'aide à la révision des mathématiques</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <script src="{% static 'js/home_teacher.js' %}"></script>
+    <link rel="stylesheet" href="{% static 'css/teacher_home.css' %}">
+</head>
+
+<body>
+    <header>
+        <h1>Application d'aide à la révision des mathématiques</h1>
+        <div id="professor-info" style="text-align: right; padding-right: 20px;"></div>
+        <div id="profile-buttons" style="text-align: right; padding-right: 20px;">
+            <button id="profile-button">Profil</button>
+            <button id="logout-button">Déconnexion</button>
+        </div>
+    </header>
+    <div class="container">
+        <a href="page_creer_cours.html" class="card">
+            <i class="fas fa-book"></i>
+            <span>Mes cours</span>
+        </a>
+        <a href="page_liste_exercices.html" class="card">
+            <i class="fas fa-list"></i>
+            <span>Mes exercices</span>
+        </a>
+    </div>
+
+    </div>
+
+</body>
+
+</html>

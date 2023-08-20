@@ -1,0 +1,35 @@
+/* Vos styles CSS existants */
+
+        /* Nouveaux styles pour les boutons */
+        header {
+            
+            background-color: #333;
+            color: #fff;
+            padding: 10px;
+            text-align: center;
+        }
+        .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px;
+        }
+        .card {
+            width: calc(33.33% - 20px);
+            text-align: center;
+            background-color: #f2f2f2;
+            border-radius: 10px;
+            padding: 20px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        .card i {
+            font-size: 36px;
+            margin-bottom: 10px;
+        }
+        .card span {
+            font-size: 18px;
+        }
+        #parent-info {
+            text-align: right;
+        }

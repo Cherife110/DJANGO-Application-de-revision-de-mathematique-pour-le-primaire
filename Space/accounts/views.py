@@ -1,81 +1,121 @@
+from django.http import HttpResponseRedirect
 from django.shortcuts import render, redirect
 from django.contrib.auth import login, authenticate
-from django.contrib.auth.models import Group
-from django.contrib.messages import success, error
 from django.contrib.auth.decorators import login_required
-from .forms import ParentCreationForm, EleveCreationForm, ProfesseurCreationForm
-# Create your views here.
+from django.shortcuts import render, redirect
+from .forms import LoginForm, ParentRegistrationForm, StudentRegistrationForm, TeacherRegistrationForm
+
+def index(request):
+    return render(request, "accounts/index.html")
+
+def home_teacher(request):
+    return render(request, "accounts/home_teacher.html")
+
+def home_student(request):
+    return render(request, "accounts/home_student.html")
+
+def home_parent(request):
+    return render(request, "accounts/home_parent.html")
+
+def CustomLogin(request):
+    template = 'accounts/login.html'
+    if request.method == 'POST':
+        form = LoginForm(request.POST)
+        if form.is_valid():
+            id_number = form.cleaned_data['username']
+            password = form.cleaned_data['password']
+            user = authenticate(request, username=id_number, password=password)
+            if user is not None:
+                login(request, user)
+                if user.role == 'student':
+                    return HttpResponseRedirect('home_student')
+                elif user.role == 'teacher':
+                    return HttpResponseRedirect('home_teacher')
+                elif user.role == 'parent':
+                    return HttpResponseRedirect('home_parent')
+            else:
+                return render(request, template, {
+                    'form': form,
+                    'error_message': 'Authentification invalide. ID ou mot de passe incorrecte'
+                })
+    else:
+        form = LoginForm()
+    return render(request, template, {'form': form})
+
+
 def register(request):
     if request.method == 'POST':
-        # Récupération du rôle choisi par l'utilisateur
         role = request.POST.get('role')
-        # Sélection du formulaire correspondant au rôle choisi
         if role == 'parent':
-            form = ParentCreationForm(request.POST)
-        elif role == 'eleve':
-            form = EleveCreationForm(request.POST)
-        elif role == 'professeur':
-            form = ProfesseurCreationForm(request.POST)
+            return redirect('register_parent')
+        elif role == 'student':
+            return redirect('register_student')
+        elif role == 'teacher':
+            return redirect('register_teacher')
         else:
-            # Affichage d'un message d'erreur si le rôle est invalide
-            error(request, "Rôle invalide")
-            return redirect('register')
-        # Validation du formulaire
-        if form.is_valid():
-            # Sauvegarde de l'utilisateur dans la base de données
-            user = form.save()
-            # Ajout du rôle à l'utilisateur
-            group = Group.objects.get(name=role)
-            user.groups.add(group)
-            # Connexion de l'utilisateur
-            login(request, user)
-            # Affichage d'un message de succès
-            success(request, "Inscription réussie")
-            # Redirection vers la page d'accueil en fonction du rôle
-            if role == 'parent':
-                return redirect('parent_home')
-            elif role == 'eleve':
-                return redirect('eleve_home')
-            elif role == 'professeur':
-                return redirect('professeur_home')
-        else:
-            # Affichage du formulaire avec les erreurs
-            return render(request, 'accounts/register.html', {'form': form})
+            return render(request, 'accounts/register.html', {'error': 'Veuillez choisir un rôle valide.'})
     else:
-        # Affichage du formulaire vide
-        form = None
-        return render(request, 'accounts/register.html', {'form': form})
+        return render(request, 'accounts/register.html')
 
-def custom_login(request):
+def register_parent(request):
     if request.method == 'POST':
-        # Récupération du nom d'utilisateur et du mot de passe saisis par l'utilisateur
-        username = request.POST.get('username')
-        password = request.POST.get('password')
-        # Authentification de l'utilisateur
-        user = authenticate(username=username, password=password)
-        if user is not None:
-            # Connexion de l'utilisateur
-            login(request, user)
-            # Redirection vers la page d'accueil en fonction du type d'utilisateur
-            if user.user_type == 'ELEVE':
-                return redirect('eleve_home')
-            elif user.user_type == 'PARENT':
-                return redirect('parent_home')
-            elif user.user_type == 'PROFESSEUR':
-                return redirect('professeur_home')
-            else:
-                return redirect('/')
-        else:
-            # Affichage d'un message d'erreur si l'authentification échoue
-            return render(request, 'accounts/login.html', {'error': 'Nom d\'utilisateur ou mot de passe incorrect'})
+        form = ParentRegistrationForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('login')
     else:
-        # Affichage du formulaire de connexion vide
-        return render(request, 'accounts/login.html')
+        form = ParentRegistrationForm()
+    return render(request, 'accounts/register_parent.html', {'form': form})
 
-# Exemple d'une vue protégée par le décorateur login_required
-@login_required(login_url='custom_login')
-def eleve_home(request):
-    # Affichage de la page d'accueil pour les élèves
-    return render(request, 'eleve_home.html')
-def home_teacher(request):
-    return render(request, 'accounts/home_teacher.html')
+def register_student(request):
+    if request.method == 'POST':
+        form = StudentRegistrationForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('parent_dashboard')
+    else:
+        form = StudentRegistrationForm()
+    return render(request, 'accounts/register_student.html', {'form': form})
+
+def register_teacher(request):
+    if request.method == 'POST':
+        form = TeacherRegistrationForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('login')
+    else:
+        form = TeacherRegistrationForm()
+    return render(request, 'accounts/register_teacher.html', {'form': form})
+
+# class CustomLoginView(LoginView):
+#     template_name = 'accounts/login.html'
+
+#     def get_success_url(self):
+#         user = self.request.user
+#         if user.role == 'student':
+#             return reverse_lazy('student_dashboard')
+#         elif user.role == 'teacher':
+#             return reverse_lazy('teacher_dashboard')
+#         elif user.role == 'parent':
+#             return reverse_lazy('parent_dashboard')
+# def register(request):
+#     if request.method == 'POST':
+#         role = request.POST.get('role')
+#         if role == 'parent':
+#             form = ParentRegistrationForm(request.POST)
+#         elif role == 'student':
+#             form = StudentRegistrationForm(request.POST)
+#         elif role == 'teacher':
+#             form = TeacherRegistrationForm(request.POST)
+#         else:
+#             form = None
+
+#         if form and form.is_valid():
+#             form.save()
+#             return redirect('login')
+#     else:
+#         form = None
+
+#     return render(request, 'accounts/register.html', {'form': form})
+
+

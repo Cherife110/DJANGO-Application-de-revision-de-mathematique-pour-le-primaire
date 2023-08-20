@@ -1,0 +1,10 @@
+{% extends 'accounts/base.html' %}
+
+{% block content %}
+<form method="POST" novalidate>
+  {% csrf_token %}
+  <h2>Créer un compte de parent</h2>
+  {{ form.as_p }}
+  <input type="submit" value="S'inscrire" />
+</form>
+{% endblock content %}
