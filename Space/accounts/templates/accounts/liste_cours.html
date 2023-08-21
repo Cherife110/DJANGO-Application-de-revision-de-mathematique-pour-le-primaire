@@ -1,0 +1,27 @@
+{% extends "accounts/base.html" %}
+
+{% block content %}
+<h1>Liste des cours</h1>
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th>Titre</th>
+      <th>Description</th>
+      <th>Niveau</th>
+      <th>Fichier</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for course in courses %} <!-- Boucle sur les cours passés par la vue -->
+    <tr>
+      <td>{{ course.title }}</td> <!-- Affiche le titre du cours -->
+      <td>{{ course.description }}</td> <!-- Affiche la description du cours -->
+      <td>{{ course.get_level_display }}</td> <!-- Affiche le niveau du cours en utilisant la méthode get_level_display qui renvoie la valeur humaine du choix -->
+      <td><a href="{{ course.file.url }}">{{course.file}}</a></td>
+    </tr>
+    {% endfor %}
+  </tbody>
+  
+</table>
+
+{% endblock %}

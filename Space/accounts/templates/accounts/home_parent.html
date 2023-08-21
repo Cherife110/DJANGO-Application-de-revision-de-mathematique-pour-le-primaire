@@ -15,9 +15,9 @@
         <h1>Application d'aide à la révision des mathématiques</h1>
     </header>
     <div id="parent-info">
-        <p id="parent-name"></p>
-        <button id="profile-button" class="icon-button"><i class="fas fa-user" style="text-align: right; padding-right: 20px;"></i> Profil</button>
-        <button id="logout-button" class="icon-button"><i class="fas fa-sign-out-alt" style="text-align: right; padding-right: 20px;"></i> Déconnexion</button>
+        <p id="parent-name">{{user.username}}</p>
+        {# <button id="profile-button" class="icon-button"><i class="fas fa-user" style="text-align: right; padding-right: 20px;"></i> Profil</button> #}
+        <button id="logout-button" class="icon-button"><i class="fas fa-sign-out-alt" style="text-align: right; padding-right: 20px;"></i><a href=" {% url 'login' %}"> Déconnexion</a></button>
     </div>
     <div class="container">
         <a href="page_liste_enfant.html" class="card">

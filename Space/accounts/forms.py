@@ -1,6 +1,6 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
-from .models import User, Profile
+from .models import Course, Exercise, User, Profile
 
 class ParentRegistrationForm(UserCreationForm):
     contact_info = forms.CharField(max_length=100)
@@ -65,3 +65,13 @@ class TeacherRegistrationForm(UserCreationForm):
 class LoginForm(forms.Form):
     username = forms.CharField(label='username', max_length=30)
     password = forms.CharField(label='Password', widget=forms.PasswordInput)
+
+
+class CourseForm(forms.ModelForm):
+    class Meta:
+        model = Course
+        fields = ["title", "description", "level", "resource_type", "file"]
+class ExerciseForm(forms.ModelForm):
+    class Meta:
+        model = Exercise
+        fields =["title", "exercise_file","correction_file"]

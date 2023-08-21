@@ -15,39 +15,29 @@
 <body>
     <header>
         <h1>Application d'aide à la révision des mathématiques</h1>
-        <div id="professor-info" style="text-align: right; padding-right: 20px;"></div>
+        <div id="professor-info" style="text-align: right; padding-right: 20px;"><p>{{user.username}}</p></div>
         <div id="profile-buttons" style="text-align: right; padding-right: 20px;">
-            <button id="profile-button">Profil</button>
-            <button id="logout-button">Déconnexion</button>
+            {# <button id="profile-button">Profil</button> #}
+            <button id="logout-button"> <a  href=" {% url 'login' %}">Déconnexion</a></button>
         </div>
     </header>
     <div class="container">
-        <a href="page_creer_cours.html" class="card">
+        <a href="{% url 'upload_course' %}" class="card">
             <i class="fas fa-book"></i>
             <span>Créer un cours</span>
         </a>
-        <div class="card" id="create-exercise">
-            <i class="fas fa-pencil-alt"></i>
+        <a href="{% url 'upload_exercise' %}" class="card">
+            <i class="fas fa-pencil"></i>
             <span>Créer un exercice</span>
-        </div>
-        <div class="quiz-section" id="quiz-section">
-            <label class="radio-label">
-                <input type="radio" name="exercise-type" value="exercice" checked>
-                Exercice
-            </label>
-            <label class="radio-label">
-                <input type="radio" name="exercise-type" value="quiz">
-                Quiz
-            </label>
-            <button onclick="createExercise()">Créer</button>
-        </div>
-        <a href="page_liste_exercices.html" class="card">
+        </a>
+       
+        <a href="{% url 'liste_exercise' %}" class="card">
             <i class="fas fa-list"></i>
             <span>Liste des exercices</span>
         </a>
-        <a href="page_modifier_cours.html" class="card">
+        <a href="{% url 'liste_cours' %}" class="card">
             <i class="fas fa-edit"></i>
-            <span>Modifier un cours</span>
+            <span>Liste des cours</span>
         </a>
 
     </div>

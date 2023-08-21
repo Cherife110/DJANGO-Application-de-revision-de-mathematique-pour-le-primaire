@@ -22,24 +22,29 @@ class User(AbstractUser):
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     contact_info = models.CharField(max_length=100, blank=True)
+    def __str__(self):
+        return self.user.username
 
 class Course(models.Model):
     title = models.CharField(max_length=100)
     description = models.TextField()
-    level = models.CharField(max_length=20)
-
-class Resource(models.Model):
+    level = models.CharField(max_length=30, choices=User.CLASSE)
     RESOURCE_TYPES = (
         ('pdf', 'PDF'),
         ('video', 'Video'),
         ('quiz', 'Quiz'),
     )
-    course = models.ForeignKey(Course, on_delete=models.CASCADE)
     resource_type = models.CharField(max_length=10, choices=RESOURCE_TYPES)
-    file = models.FileField(upload_to='resources/')
+    file = models.FileField(upload_to='media/')
+    def __str__(self):
+        return self.title
+
+
+  
 
 class Exercise(models.Model):
     course = models.ForeignKey(Course, on_delete=models.CASCADE)
+    title = models.CharField(max_length=100)
     exercise_file = models.FileField(upload_to='exercises/')
     correction_file = models.FileField(upload_to='corrections/')
 

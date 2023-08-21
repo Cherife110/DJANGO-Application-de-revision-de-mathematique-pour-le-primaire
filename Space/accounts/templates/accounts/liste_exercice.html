@@ -1,0 +1,25 @@
+{% extends "accounts/base.html" %}
+
+{% block content %}
+<h1>Liste des exercices</h1>
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th>Titre</th>
+      <th>Sujet</th>
+      <th>Correction</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for exercise in exercises %} <!-- Boucle sur les cours passés par la vue -->
+    <tr>
+      <td>{{ exercise.title }}</td> <!-- Affiche le titre du cours -->
+      <td><a href="{{ exercise.exercise_file.url }}">{{ exercise.exercise_file }}</a></td> <!-- Affiche la description du cours -->
+      <td><a href="{{ exercise.correction_file.url }}">{{ exercise.correction_file }}</a></td> <!-- Affiche le niveau du cours en utilisant la méthode get_level_display qui renvoie la valeur humaine du choix -->
+    </tr>
+    {% endfor %}
+  </tbody>
+  
+</table>
+
+{% endblock %}

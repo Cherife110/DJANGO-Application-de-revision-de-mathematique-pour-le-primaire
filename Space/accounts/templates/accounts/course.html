@@ -1,0 +1,22 @@
+{% extends "accounts/base.html" %}
+{% block content %}
+    <div class="container">
+        <form action="{% url 'upload_course' %}" method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="col-md-8 col-md-offset-2">
+                <div class="panel panel-default">
+                    <div class="panel-heading">Création de cours</div>
+                    <div class="panel-body">
+                        {% if form.errors %}
+                            <p class="bg-danger p-d ml-b">Veuillez corriger les erreurs ci-dessous.</p>
+                        {% endif %}
+                        {{ form.as_p }}
+                        <div class="col-md-6 col-md-offset-4">
+                            <input name="create" type="submit" value="Créer" class="btn btn-success" />  
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+{% endblock %}
